@@ -1,0 +1,126 @@
+﻿@page "/"
+@using ZooManager
+
+<style>
+
+    button {
+        width: 75px;
+        height: 75px;
+        font-size: 50px;
+    }
+
+        button.sm {
+            display: inline-flex;
+            width: 50px;
+            height: 50px;
+            justify-content: center;
+            align-items: center;
+            font-size: 30px;
+        }
+</style>
+
+<div class="container">
+    <div class="row">
+        <div class="col-3">
+            <span style="text-align:end">Add Zones:</span>
+        </div>
+        <!--<div class="col-1">-->
+        <button @onclick="@(() => Interaction.AddZones(Direction.down))"
+                    type="button" class="sm btn btn-outline-dark">
+                <h2>⏬</h2>
+            </button>
+            <!--</div>-->
+            @*<div class="col-1">
+                <button @onclick="@(() => Game.AddZones(Direction.up))"
+                        type="button" class="sm btn btn-outline-dark">
+                    <h2>⏫</h2>
+                </button>
+            </div>*@
+        @*<div class="col-1">
+                <button @onclick="@(() => Game.AddZones(Direction.left))"
+                        type="button" class="sm btn btn-outline-dark">
+                    <h2>⏪</h2>
+                </button>
+            </div>*@
+        <!--<div class="col-1">-->
+        <button @onclick="@(() => Interaction.AddZones(Direction.right))"
+                    type="button" class="sm btn btn-outline-dark">
+                <h2>⏩</h2>
+            </button>
+        <!--</div>-->
+    </div>
+    <div class="row">
+        <div class="col">
+            <hr />
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-3">
+            <span style="text-align:end">Add Animal to Holding:</span>
+        </div>
+        <button @onclick="@(() => Interaction.AddAnimalToHolding("cat"))"
+                type="button" class="sm btn btn-outline-dark">
+            <h2>🐱</h2>
+        </button>
+        <button @onclick="@(() => Interaction.AddAnimalToHolding("mouse"))"
+                type="button" class="sm btn btn-outline-dark">
+            <h2>🐭</h2>
+        </button>
+        <button @onclick="@(() => Interaction.AddAnimalToHolding("raptor"))"
+                type="button" class="sm btn btn-outline-dark">
+            <h2>🦅</h2>
+        </button>
+        <button @onclick="@(() => Interaction.AddAnimalToHolding("chick"))"
+                type="button" class="sm btn btn-outline-dark">
+            <h2>🐥</h2>
+        </button>
+    </div>
+    <div class="row">
+        <div class="col">
+            <hr />
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-3">
+            <span style="text-align:end">Holding Pen:</span>
+        </div>
+        <button disabled type="button" class="sm btn btn-outline-dark">
+            <h2>@Interaction.holdingPen.emoji</h2><sup>@Interaction.holdingPen.rtLabel</sup>
+        </button>
+    </div>
+    <div class="row">
+        <div class="col">
+            <hr />
+        </div>
+    </div>
+    <div class="row">
+        <div class="col">
+            <table align="center">
+                @for (var y = 0; y < Interaction.numCellsY; y++)
+                {
+                    <tr>
+                        @for (var x = 0; x < Interaction.numCellsX; x++)
+                        {
+                            var a = Interaction.animalZones[y][x];
+                            <td>
+                                <button @onclick="@(() => Interaction.ZoneClick(a))"
+                                        type="button" class="btn btn-outline-dark">
+                                    <h2>@a.emoji<sup>@a.rtLabel</sup></h2>
+                                </button>
+                            </td>
+                        }
+                    </tr>
+                }
+            </table>
+        </div>
+    </div>
+</div>
+
+@code {
+    protected override void OnInitialized()
+    {
+        Interaction.SetUpGame();
+    }
+}
+
+
