@@ -10,31 +10,37 @@ namespace ZooManager
 {
     public static class Interaction
     {
+        //the x number of the zone
         private static int _numCellsX = 4;
         public static int numCellsX { get { return _numCellsX; } set { _numCellsX = value; } }
 
+        //the y number of the zone
         private static int _numCellsY = 4;
         public static int numCellsY { get { return _numCellsY; } set { _numCellsY = value; } }
 
+        //the max x number of the zone
         static private int maxCellsX = 10;
+        //the max y number of the zone
         static private int maxCellsY = 10;
 
-        //2d list
+        //2d list for create a zone, will start with y
         static private List<List<Zone>> _animalZones = new List<List<Zone>>();
         static public List<List<Zone>> animalZones { get { return _animalZones; } set { _animalZones = value; } }
 
+        //the place to pick up an animal
         static private Zone _holdingPen = new Zone(-1, -1, null);
         static public Zone holdingPen { get { return _holdingPen; } set { _holdingPen = value; } }
 
         static public void SetUpGame()
         {
+            //create the zone by row, the first row y==0
             for (var y = 0; y < numCellsY; y++)
             {
                 //create a new list to store a row with numCellsX cells
                 List<Zone> rowList = new List<Zone>();
-                // Note one-line variation of for loop below!
-                //add a row according the current x length
+                //add a row by x according the current x length
                 for (var x = 0; x < numCellsX; x++) rowList.Add(new Zone(x, y, null));
+                //add the row
                 animalZones.Add(rowList);
             }
         }
@@ -43,31 +49,34 @@ namespace ZooManager
         {
             if (d == Direction.down || d == Direction.up)
             {
-                if (numCellsY >= maxCellsY) return; // hit maximum height!
+                //numCellsY can't bigger than max 
+                if (numCellsY >= maxCellsY) return;
+                //create a new list to store a row with numCellsX cells
                 List<Zone> rowList = new List<Zone>();
-                //add a row according the current x length
+                //add a row by x according the current x length
                 for (var x = 0; x < numCellsX; x++)
                 {
                     //add a cell in the row
                     rowList.Add(new Zone(x, numCellsY, null));
                 }
-                //add y number
+                //add 1 to y number
                 numCellsY++;
                 //add the row
                 if (d == Direction.down) animalZones.Add(rowList);
-                // if (d == Direction.up) animalZones.Insert(0, rowList);
             }
-            else // must be left or right...
+            else //if left or right
             {
-                if (numCellsX >= maxCellsX) return; // hit maximum width!
+                //numCellsX can't bigger than max 
+                if (numCellsX >= maxCellsX) return;
+                //add a col by y according the current x length
                 for (var y = 0; y < numCellsY; y++)
                 {
-                    //identify the row (each row)
+                    //identify the current row (each row)
                     var rowList = animalZones[y];
-                    // if (d == Direction.left) rowList.Insert(0, new Zone(null));
                     //add a cell into the last of the row
                     if (d == Direction.right) rowList.Add(new Zone(numCellsX, y, null));
                 }
+                //add 1 to x number
                 numCellsX++;
             }
         }
@@ -75,42 +84,54 @@ namespace ZooManager
         static public void ZoneClick(Zone clickedZone)
         {
             Console.Write("Got animal ");
+            //in console line write if emoji=="" then emoji="none" else clickedZone.emoji
             Console.WriteLine(clickedZone.emoji == "" ? "none" : clickedZone.emoji);
             Console.Write("Held animal is ");
             Console.WriteLine(holdingPen.emoji == "" ? "none" : holdingPen.emoji);
+            //if click on a cell not empty, then console line write the location
             if (clickedZone.occupant != null) clickedZone.occupant.ReportLocation();
+            //if pickup zone is empty and click on a cell not empty
             if (holdingPen.occupant == null && clickedZone.occupant != null)
             {
-                // take animal from zone to holding pen
+                //take an animal from zone to holding pen
                 Console.WriteLine("Taking " + clickedZone.emoji);
                 holdingPen.occupant = clickedZone.occupant;
-                //change the animal loaction (not holdingPen location)
+                //change the animal loaction (not holdingPen location) to pickup zone
                 holdingPen.occupant.location.x = -1;
                 holdingPen.occupant.location.y = -1;
+                //remove animal from the clicked cell
                 clickedZone.occupant = null;
+                //run animal movements
                 ActivateAnimals();
             }
+            //if pickup zone is not empty and click on a cell is empty
             else if (holdingPen.occupant != null && clickedZone.occupant == null)
             {
-                // put animal in zone from holding pen
+                //set animal from holding pen and put it on the clicked cell
                 Console.WriteLine("Placing " + holdingPen.emoji);
                 clickedZone.occupant = holdingPen.occupant;
+                //change the animal loaction to clicked zone
                 clickedZone.occupant.location = clickedZone.location;
+                //make pickup zone empty
                 holdingPen.occupant = null;
                 Console.WriteLine("Empty spot now holds: " + clickedZone.emoji);
+                //run animal movements
                 ActivateAnimals();
             }
+            //if pickup zone is not empty and click on a cell is not empty
             else if (holdingPen.occupant != null && clickedZone.occupant != null)
             {
                 Console.WriteLine("Could not place animal.");
-                // Don't activate animals since user didn't get to do anything
             }
         }
 
+        //add a new animal to pickup zone
         static public void AddAnimalToHolding(string animalType)
         {
+            //if pickup zone is not empty
             if (holdingPen.occupant != null) return;
             //why not use Cat as the name, why use fluffy
+            //add a new animal to pickup zone with name
             //if (animalType == "cat") holdingPen.occupant = new Cat("Fluffy");
             if (animalType == "cat") holdingPen.occupant = new Cat("cat");
             //if (animalType == "mouse") holdingPen.occupant = new Mouse("Squeaky");
@@ -118,6 +139,7 @@ namespace ZooManager
             if (animalType == "raptor") holdingPen.occupant = new Raptor("raptor");
             if (animalType == "chick") holdingPen.occupant = new Chick("chick");
             Console.WriteLine($"Holding pen occupant at {holdingPen.occupant.location.x},{holdingPen.occupant.location.y}");
+            //run animal movements
             ActivateAnimals();
         }
 
@@ -125,9 +147,9 @@ namespace ZooManager
         static private void ActivateAnimals()
         {
             //activate animals by the order of reaction times
-            for (var r = 1; r < 11; r++) // reaction times from 1 to 10
+            for (var r = 1; r <= 10; r++)
             {
-                //from the first row
+                //from the first row (y==0)
                 for (var y = 0; y < numCellsY; y++)
                 {
                     //from the left cell
