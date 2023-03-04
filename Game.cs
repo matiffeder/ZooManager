@@ -150,6 +150,13 @@ namespace ZooManager
             return (directionInfo, targetDirections);
         }
 
+        /* 
+         * attack animal and take their place
+         * call: no
+         * called by: Animal
+         * parameter: Animal - attacker, Direction - location, int - distance to attack
+         * return: no (void)
+         */
         static public void Attack(Animal attacker, Direction d, int distance)
         {
             Console.WriteLine($"{attacker.name} is attacking {d.ToString()}");

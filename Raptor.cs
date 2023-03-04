@@ -18,6 +18,14 @@ namespace ZooManager
             reactionTime = 1; 
         }
 
+        /* 
+         * active an animal, hunt mouse or cat (output name and location was written on parent)
+         * call: no
+         * called by: no 
+         * parameter: no
+         * return: no (void)
+         */
+        //override the Activate() in Animal
         public override void Activate()
         {
             //base is Bird -> Animal

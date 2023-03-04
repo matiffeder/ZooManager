@@ -19,6 +19,14 @@ namespace ZooManager
             reactionTime = new Random().Next(6, 11);
         }
 
+        /* 
+         * active an animal, flee from cat (output name and location was written on parent)
+         * call: no
+         * called by: no 
+         * parameter: no
+         * return: no (void)
+         */
+        //override the Activate() in Animal
         public override void Activate()
         {
             //base is Bird -> Animal, base on Activate in Animal (parent)

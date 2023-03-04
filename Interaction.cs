@@ -31,6 +31,13 @@ namespace ZooManager
         static private Zone _holdingPen = new Zone(-1, -1, null);
         static public Zone holdingPen { get { return _holdingPen; } set { _holdingPen = value; } }
 
+        /* 
+        * create the game zone
+        * call: no
+        * called by: index.razor
+        * parameter: no
+        * return: no (void)
+        */
         static public void SetUpGame()
         {
             //create the zone by row, the first row y==0
@@ -45,6 +52,13 @@ namespace ZooManager
             }
         }
 
+        /* 
+        * add row or col on zone
+        * call: no
+        * called by: index.razor
+        * parameter: Direction - click on right(left) or down(up) button
+        * return: no (void)
+        */
         static public void AddZones(Direction d)
         {
             if (d == Direction.down || d == Direction.up)
@@ -81,6 +95,13 @@ namespace ZooManager
             }
         }
 
+        /* 
+        * active the diff actions when click on a cell, add an animal or pick up an animal
+        * call: no
+        * called by: index.razor
+        * parameter: Zone - the cell that clicked
+        * return: no (void)
+        */
         static public void ZoneClick(Zone clickedZone)
         {
             Console.Write("Got animal ");
@@ -125,7 +146,13 @@ namespace ZooManager
             }
         }
 
-        //add a new animal to pickup zone
+        /* 
+        * add a new animal to pickup zone
+        * call: no
+        * called by: index.razor
+        * parameter: string - the add animal button user clicked
+        * return: no (void)
+        */
         static public void AddAnimalToHolding(string animalType)
         {
             //if pickup zone is not empty
@@ -143,10 +170,17 @@ namespace ZooManager
             ActivateAnimals();
         }
 
+        /* 
+        * active animals by reaction time and from zone coordinate (0,0)
+        * call: no
+        * called by: Interaction
+        * parameter: no
+        * return: no (void)
+        */
         //if the actor has less index it will possible to move more than once
         static private void ActivateAnimals()
         {
-            //activate animals by the order of reaction times
+            //activate animals by the order of reaction time
             for (var r = 1; r <= 10; r++)
             {
                 //from the first row (y==0)

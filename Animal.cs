@@ -25,6 +25,13 @@ namespace ZooManager
             Console.WriteLine($"I am at {location.x},{location.y}");
         }
 
+        /* 
+         * active an animal (only output name and location here, more functions was written on childs)
+         * call: no
+         * called by: cats, chicks, interaction, mouse, raptor
+         * parameter: no
+         * return: no (void)
+         */
         //virtual is used in parent class, so that the child can base on it and override it, it should be public
         virtual public void Activate()
         {

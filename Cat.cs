@@ -17,6 +17,13 @@ namespace ZooManager
             reactionTime = new Random().Next(1, 6); 
         }
 
+        /* 
+         * active an animal, hunt mouse or chick, flee from raptor (output name and location was written on parent)
+         * call: Game - Seek
+         * called by: no 
+         * parameter: no
+         * return: no (void)
+         */
         //override the Activate() in Animal
         //feature e, k
         public override void Activate()
