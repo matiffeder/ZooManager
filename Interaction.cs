@@ -12,11 +12,11 @@ namespace ZooManager
     {
         //the x number of the zone
         private static int _numCellsX = 4;
-        public static int numCellsX { get { return _numCellsX; } set { _numCellsX = value; } }
+        public static int numCellsX { get { return _numCellsX; } private set { _numCellsX = value; } }
 
         //the y number of the zone
         private static int _numCellsY = 4;
-        public static int numCellsY { get { return _numCellsY; } set { _numCellsY = value; } }
+        public static int numCellsY { get { return _numCellsY; } private set { _numCellsY = value; } }
 
         //the max x number of the zone
         static private int maxCellsX = 10;
@@ -25,11 +25,11 @@ namespace ZooManager
 
         //2d list for create a zone, will start with y
         static private List<List<Zone>> _animalZones = new List<List<Zone>>();
-        static public List<List<Zone>> animalZones { get { return _animalZones; } set { _animalZones = value; } }
+        static public List<List<Zone>> animalZones { get { return _animalZones; } private set { _animalZones = value; } }
 
         //the place to pick up an animal
         static private Zone _holdingPen = new Zone(-1, -1, null);
-        static public Zone holdingPen { get { return _holdingPen; } set { _holdingPen = value; } }
+        static public Zone holdingPen { get { return _holdingPen; } private set { _holdingPen = value; } }
 
         /* 
         * create the game zone
@@ -189,12 +189,30 @@ namespace ZooManager
                     //from the left cell
                     for (var x = 0; x < numCellsX; x++)
                     {
-                        //if the cell has an animal and it is its reactionTime in order
+                        //if the cell has an animal and it is its reactionTime in order and has not activated
                         var zone = animalZones[y][x];
-                        if (zone.occupant != null && zone.occupant.reactionTime == r)
+                        if (zone.occupant != null && zone.occupant.reactionTime == r && zone.occupant.moved == false)
                         {
+                            //Activate the occupant
                             zone.occupant.Activate();
                         }
+                    }
+                }
+            }
+            //make all occupant back to the status no moved after run the reaction time loop
+            //feature o 
+            //from the first row (y==0)
+            for (var y = 0; y < numCellsY; y++)
+            {
+                //from the left cell
+                for (var x = 0; x < numCellsX; x++)
+                {
+                    var zone = animalZones[y][x];
+                    //if the cell has an animal
+                    if (zone.occupant != null)
+                    {
+                        //make it has not moved
+                        zone.occupant.moved = false;
                     }
                 }
             }

@@ -31,9 +31,15 @@ namespace ZooManager
             //base is Bird -> Animal
             base.Activate();
             Console.WriteLine("I am a raptor.");
+            (Dictionary<Direction, int> _directionInfo, List<Direction> targetDirections) = Game.Seek(location.x, location.y, new List<string>() { "mouse", "cat" }, 1);
             //hunt "mouse" or "cat" if distance is 1
-            //feature d
+            //the function only hunt when it can hunt, so we don't need to put it in if condition
+            //feature d, i
             Hunt(new List<string>() { "mouse", "cat" }, 1);
+            if (targetDirections.Count < 1)
+            {
+                Game.Move(this, 2, null, null, false);
+            }
         }
     }
 }
