@@ -4,13 +4,14 @@ using System.Collections.Generic;
 namespace ZooManager
 {
     //feature a, b
-    public class Raptor : Bird
+    public class Raptor : Bird, IPredator
     {
         //deliever the arg from bird to raptor
         public Raptor(string name) : base(name)
         {
+            //emoji for show the animal on the cells
             emoji = "🦅";
-            //species = "raptor";
+            //species = "bird";
             //"this" means this class, to seperate the arg of name
             //Bird (parent) has set the name
             //this.name = name; 
@@ -31,11 +32,13 @@ namespace ZooManager
             //base is Bird -> Animal
             base.Activate();
             Console.WriteLine("I am a raptor.");
-            (Dictionary<Direction, int> _directionInfo, List<Direction> targetDirections) = Game.Seek(location.x, location.y, new List<string>() { "mouse", "cat" }, 1);
+            //check if there is prey can hunt
+            (Dictionary<Direction, int> _directionInfo, List<Direction> targetDirections) = Game.Seek(location.x, location.y, new string[] { "mouse", "cat" }, 1);
             //hunt "mouse" or "cat" if distance is 1
             //the function only hunt when it can hunt, so we don't need to put it in if condition
             //feature d, i
-            Hunt(new List<string>() { "mouse", "cat" }, 1);
+            Hunt(new string[] { "mouse", "cat" }, 1);
+            //if no prey, then fly (false)
             if (targetDirections.Count < 1)
             {
                 Game.Move(this, 2, null, null, false);

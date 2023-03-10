@@ -165,6 +165,7 @@ namespace ZooManager
             if (animalType == "mouse") holdingPen.occupant = new Mouse("mouse");
             if (animalType == "raptor") holdingPen.occupant = new Raptor("raptor");
             if (animalType == "chick") holdingPen.occupant = new Chick("chick");
+            if (animalType == "alien") holdingPen.occupant = new Alien("alien");
             Console.WriteLine($"Holding pen occupant at {holdingPen.occupant.location.x},{holdingPen.occupant.location.y}");
             //run animal movements
             ActivateAnimals();
@@ -177,7 +178,6 @@ namespace ZooManager
         * parameter: no
         * return: no (void)
         */
-        //if the actor has less index it will possible to move more than once
         static private void ActivateAnimals()
         {
             //activate animals by the order of reaction time
@@ -189,8 +189,10 @@ namespace ZooManager
                     //from the left cell
                     for (var x = 0; x < numCellsX; x++)
                     {
-                        //if the cell has an animal and it is its reactionTime in order and has not activated
                         var zone = animalZones[y][x];
+                        //if the cell has an animal and it is its reactionTime in order and has not moved
+                        //check has not moved becasue if the actor has less index it will possible to move more than once
+                        //feature o 
                         if (zone.occupant != null && zone.occupant.reactionTime == r && zone.occupant.moved == false)
                         {
                             //Activate the occupant

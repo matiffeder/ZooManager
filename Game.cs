@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Diagnostics.Metrics;
 using System.Linq;
 using System.Reflection;
 
@@ -9,6 +8,9 @@ namespace ZooManager
 {
     public static class Game
     {
+        //create a occupants list, use Occupant here because it can check tpye by "is" if there is any new code needs this function
+        public static readonly Occupant[] occupants = { new Raptor("raptor"), new Chick("chick"), new Cat("cat"), new Mouse("mouse"), new Alien("alien"), };
+        //2d list for create a zone, will start with y, read from Interaction
         static List<List<Zone>> animalZones = Interaction.animalZones;
 
         /* 
@@ -33,15 +35,15 @@ namespace ZooManager
             return dirCoordinates;
         }
 
-    /* 
-     * seek targets in 4 directions distance
-     * call: Interaction - numCellsY, numCellsX
-     * called by: Animal, Game
-     * parameter: int - location, List<string> - targets, int - distance to seek, bool - true is not fly
-     * return: Dictionary<Direction, int> - key is direction, value is target's distance, List<Direction> - closest/farest directions with target
-     */
-    //feature f, i
-    static public (Dictionary<Direction, int>, List<Direction>) Seek(int x, int y, List<string> targets, int distance, bool nofly=true)
+        /* 
+         * seek targets in 4 directions distance
+         * call: Interaction - numCellsY, numCellsX
+         * called by: Occupant, Game
+         * parameter: int - location, string[] - targets(use array because the length will not change), int - distance to seek, bool - true is not fly
+         * return: Dictionary<Direction, int> - key is direction, value is target's distance, List<Direction> - closest/farest directions with target
+         */
+        //feature f, i
+        static public (Dictionary<Direction, int>, List<Direction>) Seek(int x, int y, string[] targets, int distance, bool nofly=true)
         {
             //store 4 directions and its distance to target, default distance is 0 (no target==0)
             //feature f, i
@@ -130,42 +132,7 @@ namespace ZooManager
                         directionInfo[Direction.up]++;
                     }
                 }
-                //right
-                for (int i = 1; i <= distance; i++)
-                {
-                    if (x + i < Interaction.numCellsX && animalZones[y][x + i].occupant != null)
-                    {
-                        break;
-                    }
-                    else if (x + i < Interaction.numCellsX && animalZones[y][x + i].occupant == null)
-                    {
-                        directionInfo[Direction.right]++;
-                    }
-                }
-                //down
-                for (int i = 1; i <= distance; i++)
-                {
-                    if (y + i < Interaction.numCellsY && animalZones[y + i][x].occupant != null)
-                    {
-                        break;
-                    }
-                    else if (y + i < Interaction.numCellsY && animalZones[y + i][x].occupant == null)
-                    {
-                        directionInfo[Direction.down]++;
-                    }
-                }
-                //left
-                for (int i = 1; i <= distance; i++)
-                {
-                    if (x - i >= 0 && animalZones[y][x - i].occupant != null)
-                    {
-                        break;
-                    }
-                    else if (x - i >= 0 && animalZones[y][x - i].occupant == null)
-                    {
-                        directionInfo[Direction.left]++;
-                    }
-                }*/
+                //right......*/
                 //use for finding farest direction in distance
                 targetDistance = 0;
                 //check saved distance in diff direction to find the farest distance in direction
@@ -185,7 +152,7 @@ namespace ZooManager
                     //key is direction, value is axis
                     Dictionary<Direction, int[]> dirCoordinates = DirCoordinates(x, y, i);
                     //check different targets
-                    for (int j = 0; j < targets.Count; j++)
+                    for (int j = 0; j < targets.Length; j++)
                     {
                         //check all the directions in dirCoordinates
                         foreach (var coordinate in dirCoordinates)
@@ -204,26 +171,6 @@ namespace ZooManager
                                 directionInfo[direction] = i;
                             }
                         }
-                        //if up is not edge and up is one of targets
-                        //animalZones[y - i][x].occupant != null is needed to check animalZones[y - i][x].occupant.name
-                        /*if (y - i >= 0 && animalZones[y - i][x].occupant != null && animalZones[y - i][x].occupant.name == targets[j])
-                        {
-                            //save the current distance to up direction
-                            //feature f (return nearest distance)
-                            directionInfo[Direction.up] = i;
-                        }
-                        if (x + i <= Interaction.numCellsX - 1 && animalZones[y][x + i].occupant != null && animalZones[y][x + i].occupant.name == targets[j])
-                        {
-                            directionInfo[Direction.right] = i;
-                        }
-                        if (y + i <= Interaction.numCellsY - 1 && animalZones[y + i][x].occupant != null && animalZones[y + i][x].occupant.name == targets[j])
-                        {
-                            directionInfo[Direction.down] = i;
-                        }
-                        if (x - i >= 0 && animalZones[y][x - i].occupant != null && animalZones[y][x - i].occupant.name == targets[j])
-                        {
-                            directionInfo[Direction.left] = i;
-                        }*/
                     }
                 }
                 //use for finding closest direction in distance
@@ -248,11 +195,11 @@ namespace ZooManager
         /* 
          * attack animal and take their place
          * call: no
-         * called by: Animal
-         * parameter: Animal - attacker, Direction - location, int - distance to attack
+         * called by: Occupant
+         * parameter: Occupant - attacker, Direction - location, int - distance to attack
          * return: no (void)
          */
-        static public void Attack(Animal attacker, Direction d, int distance)
+        static public void Attack(Occupant attacker, Direction d, int distance)
         {
             Console.WriteLine($"{attacker.name} is attacking {d.ToString()}");
             //get the coordinates in distance from the current location
@@ -268,41 +215,18 @@ namespace ZooManager
             animalZones[attacker.location.y][attacker.location.x].occupant = null;
             //attacker take place of the animal that be attacked
             animalZones[newY][newX].occupant = attacker;
-
-            //get loacation of attacker
-            //int x = attacker.location.x;
-            //int y = attacker.location.y;
-            //the direction to attack
-            /*switch (d)
-            {
-                case Direction.up:
-                    //attacker take place of the animal that be attacked
-                    animalZones[y - distance][x].occupant = attacker;
-                    break;
-                case Direction.right:
-                    animalZones[y][x + distance].occupant = attacker;
-                    break;
-                case Direction.down:
-                    animalZones[y + distance][x].occupant = attacker;
-                    break;
-                case Direction.left:
-                    animalZones[y][x - distance].occupant = attacker;
-                    break;
-            }
-            //the attacker remove from the orig location 
-            animalZones[y][x].occupant = null;*/
         }
 
 
         /* 
          * move to a empty cell in distance and will not move back
          * call: Game - Seek
-         * called by: Animal
-         * parameter: Animal - mover, int - distance to move, Direction? - the direction to move back
+         * called by: Occupant
+         * parameter: Occupant - mover, int - distance to move, Direction? - the direction to move back
          * return: int - remain distance, Direction? - the direction to move back
          */
         //feature g, h, i
-        static public (int, Direction?) Move(Animal mover, int distance, Direction? origDirection, List<Direction>? predatorDirections, bool nofly=true)
+        static public (int, Direction?) Move(Occupant mover, int distance, Direction? origDirection, List<Direction>? predatorDirections, bool nofly=true)
         {
             //get loacation of mover
             int x = mover.location.x;
@@ -361,31 +285,6 @@ namespace ZooManager
                 //save the move back direction
                 //the DirCoordinates dict is organized by top, right, down, left, so the opposite direction is in the next two or previous two index
                 origDirection = dirCoordinates.ElementAt(dirIndex+2 > 3 ? dirIndex-2 : dirIndex+2).Key;
-
-                /*switch (newDir)
-                {
-                    //if the radom direction is up
-                    case Direction.up:
-                        //animal move to the new cell
-                        animalZones[y - movedCell][x].occupant = mover;
-                        //save the move back direction
-                        origDirection = Direction.down;
-                        break;
-                    case Direction.right:
-                        animalZones[y][x + movedCell].occupant = mover;
-                        origDirection = Direction.left;
-                        break;
-                    case Direction.down:
-                        animalZones[y + movedCell][x].occupant = mover;
-                        origDirection = Direction.up;
-                        break;
-                    case Direction.left:
-                        animalZones[y][x - movedCell].occupant = mover;
-                        origDirection = Direction.right;
-                        break;
-                }
-                //remove from the orig cell
-                animalZones[y][x].occupant = null;*/
             }
             //return distance that moved in this time
             //feature g 

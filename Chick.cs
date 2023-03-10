@@ -4,7 +4,7 @@ using System.Collections.Generic;
 namespace ZooManager
 {
     //feature c
-    public class Chick : Bird
+    public class Chick : Bird, IPrey
     {
         //deliever the arg from bird to chick
         public Chick(string name) : base(name)
@@ -29,11 +29,11 @@ namespace ZooManager
         //override the Activate() in Animal
         public override void Activate()
         {
-            //base is Bird -> Animal, base on Activate in Animal (parent)
+            //base is Bird -> Animal, base on Activate in Occupant (parent)
             base.Activate();
             Console.WriteLine("I am a chick.");
             //if found "cat" near it (distance 1) run away with distance 1
-            Flee(new List<string>() { "cat" }, 1);
+            Flee(new string[] { "cat" }, 1);
         }
     }
 }

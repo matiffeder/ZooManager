@@ -4,8 +4,8 @@ namespace ZooManager
     public class Zone
     {
         //encapsulated animal info in a cell
-        private Animal _occupant = null;
-        public Animal occupant
+        private Occupant _occupant = null;
+        public Occupant occupant
         {
             get { return _occupant; }
             set {
@@ -45,12 +45,12 @@ namespace ZooManager
         }
 
         //for a set up a cell with location and animal(can be null)
-        public Zone(int x, int y, Animal animal)
+        public Zone(int x, int y, Occupant _occupant)
         {
             location.x = x;
             location.y = y;
 
-            occupant = animal;
+            occupant = _occupant;
         }
     }
 }
