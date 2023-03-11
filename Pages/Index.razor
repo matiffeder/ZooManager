@@ -1,5 +1,6 @@
 ﻿@page "/"
-@using ZooManager
+@using ZooManager;
+@using System.Timers;
 
 <style>
 
@@ -121,9 +122,27 @@
 </div>
 
 @code {
+    Timer timer = new Timer(1000);
+
+    //override the OnInitialized method to set up the game
     protected override void OnInitialized()
     {
+        //the way to run timer
+        timer.Elapsed += Timer_Tick;
+        //start the timer to use async in the game
+        timer.Start();
+        //basic setting of the game
         Interaction.SetUpGame();
+    }
+
+    //elapsed timer, will keep update by the setting above
+    private void Timer_Tick(Object source, ElapsedEventArgs e)
+    {
+        InvokeAsync(() =>
+        {
+            //update the screen according to the Task.Delay
+            StateHasChanged();
+        });
     }
 }
 

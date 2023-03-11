@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using System.Threading.Tasks;
 
 //if holding have an animal and user pick up the other animal on the zone the holding animal will disappear
 
@@ -30,6 +31,7 @@ namespace ZooManager
         //the place to pick up an animal
         static private Zone _holdingPen = new Zone(-1, -1, null);
         static public Zone holdingPen { get { return _holdingPen; } private set { _holdingPen = value; } }
+
 
         /* 
         * create the game zone
@@ -178,7 +180,7 @@ namespace ZooManager
         * parameter: no
         * return: no (void)
         */
-        static private void ActivateAnimals()
+        static private async void ActivateAnimals()
         {
             //activate animals by the order of reaction time
             for (var r = 1; r <= 10; r++)
@@ -195,8 +197,11 @@ namespace ZooManager
                         //feature o 
                         if (zone.occupant != null && zone.occupant.reactionTime == r && zone.occupant.moved == false)
                         {
+                            Console.WriteLine("---------------------------------------------");
                             //Activate the occupant
                             zone.occupant.Activate();
+                            //delay for one second to show each move, need Timer in Index.razor
+                            await Task.Delay(1000);
                         }
                     }
                 }

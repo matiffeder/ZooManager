@@ -38,7 +38,6 @@ namespace ZooManager
         //virtual is used in parent class, so that the child can base on it and override it, it should be public
         virtual public void Activate()
         {
-            Console.WriteLine("---------------------------------------------");
             Console.WriteLine($"Occupant {name} at {location.x},{location.y} activated");
         }
 
