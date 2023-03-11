@@ -201,6 +201,7 @@ namespace ZooManager
                             //Activate the occupant
                             zone.occupant.Activate();
                             //delay for one second to show each move, need Timer in Index.razor
+                            //https://learn.microsoft.com/zh-tw/dotnet/api/system.threading.tasks.task.delay?view=net-7.0
                             await Task.Delay(1000);
                         }
                     }
