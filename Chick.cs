@@ -4,7 +4,7 @@ using System.Collections.Generic;
 namespace ZooManager
 {
     //feature c
-    public class Chick : Bird, IPrey
+    class Chick : Bird, IPrey
     {
         //deliever the arg from bird to chick
         public Chick(string name) : base(name)

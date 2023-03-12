@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace ZooManager
 {
-    public static class Interaction
+    static class Interaction
     {
         //the x number of the zone
         private static int _numCellsX = 4;
@@ -126,7 +126,7 @@ namespace ZooManager
                 //remove animal from the clicked cell
                 clickedZone.occupant = null;
                 //run animal movements
-                ActivateAnimals();
+                //ActivateAnimals();
             }
             //if pickup zone is not empty and click on a cell is empty
             else if (holdingPen.occupant != null && clickedZone.occupant == null)
@@ -140,7 +140,7 @@ namespace ZooManager
                 holdingPen.occupant = null;
                 Console.WriteLine("Empty spot now holds: " + clickedZone.emoji);
                 //run animal movements
-                ActivateAnimals();
+                //ActivateAnimals();
             }
             //if pickup zone is not empty and click on a cell is not empty
             else if (holdingPen.occupant != null && clickedZone.occupant != null)

@@ -2,7 +2,7 @@
 
 namespace ZooManager
 {
-    public class Zone
+    class Zone
     {
         //encapsulated animal info in a cell
         private Occupant _occupant = null;

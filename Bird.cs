@@ -2,9 +2,9 @@
 
 namespace ZooManager
 {
-    public class Bird : Animal
+    abstract class Bird : Animal
     {
-        public Bird(string animalName) : base(animalName)
+        protected Bird(string animalName) : base(animalName)
         {
             //didn't use at the moment
             species = "bird";

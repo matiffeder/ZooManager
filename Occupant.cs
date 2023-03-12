@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace ZooManager
 {
-    public class Occupant
+    abstract class Occupant
     {
         //emoji for show the animal on the cells
         public string emoji;

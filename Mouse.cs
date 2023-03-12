@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace ZooManager
 {
-    public class Mouse : Animal, IPrey
+    class Mouse : Animal, IPrey
     {
         public Mouse(string name) : base(name)
         {

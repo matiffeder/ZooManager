@@ -6,7 +6,7 @@ using System.Reflection;
 
 namespace ZooManager
 {
-    public static class Game
+    static class Game
     {
         //create a occupants list, use Occupant here because it can check tpye by "is" if there is any new code needs this function
         public static readonly Occupant[] occupants = { new Raptor("raptor"), new Chick("chick"), new Cat("cat"), new Mouse("mouse"), new Alien("alien"), };

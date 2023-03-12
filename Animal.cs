@@ -3,9 +3,9 @@ using System.Collections.Generic;
 
 namespace ZooManager
 {
-    public class Animal : Occupant
+    abstract class Animal : Occupant
     {
-        public Animal(string name)
+        protected Animal(string name)
         {
             //didn't use at the moment
             species = "animal";

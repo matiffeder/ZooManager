@@ -5,7 +5,7 @@ using System.Collections.Generic;
 namespace ZooManager
 {
     //feature a, b
-    public class Raptor : Bird, IPredator
+    class Raptor : Bird, IPredator
     {
         //deliever the arg from bird to raptor
         public Raptor(string name) : base(name)
