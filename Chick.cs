@@ -35,6 +35,8 @@ namespace ZooManager
             //if found "cat" near it (distance 1) run away with distance 1
             Flee(new string[] { "cat" }, 1);
         }
+        //there is Flee method with paremeters that in Occupant class and it is better than using the Flee from interface
+        void IPrey._Flee(string[] targets, int distance) { }
     }
 }
 

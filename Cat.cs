@@ -34,7 +34,7 @@ namespace ZooManager
             base.Activate();
             Console.WriteLine("I am a cat. Meow.");
             //get the attack directions of targets by distance
-            (Dictionary<Direction, int> _directionInfo, List<Direction> targetDirections) = Game.Seek(location.x, location.y, new string[] { "mouse", "chick" }, 1);
+            (Dictionary<Direction, int> _, List<Direction> targetDirections) = Game.Seek(location.x, location.y, new string[] { "mouse", "chick" }, 1);
             //hunt can run away from a raptor, since it also move to the other cell
             //so it will run away first when hunt
             //hunt "mouse" or "chick" if distance is 1
@@ -52,7 +52,7 @@ namespace ZooManager
             //-----if really want to flee first
             /*
             //get the flee directions of targets by distance
-            (Dictionary<Direction, int> __directionInfo, List<Direction> fleeDirections) = Game.Seek(location.x, location.y, new string[] { "raptor" }, 1);
+            (Dictionary<Direction, int> _directionInfo, List<Direction> fleeDirections) = Game.Seek(location.x, location.y, new string[] { "raptor" }, 1);
             //if can't find raptors. only hunt when no raptor
             //feature e, k
             if (fleeDirections.Count < 1)
@@ -66,6 +66,10 @@ namespace ZooManager
             Flee(new string[] { "raptor" }, 2);
             */
         }
+        //there is Hunt method with paremeters that in Occupant class and it is better than using the Hunt from interface
+        void IPredator._Hunt(string[] targets, int distance) { }
+        //there is Flee method with paremeters that in Occupant class and it is better than using the Flee from interface
+        void IPrey._Flee(string[] targets, int distance) { }
     }
 }
 

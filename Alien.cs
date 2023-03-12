@@ -43,5 +43,7 @@ namespace ZooManager
             //the function only hunt when it can hunt
             Hunt(occupantsName, 1);
         }
+        //there is Hunt method with paremeters that in Occupant class and it is better than using the Hunt from interface
+        void IPredator._Hunt(string[] targets, int distance) { }
     }
 }

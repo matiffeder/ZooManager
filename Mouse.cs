@@ -36,6 +36,8 @@ namespace ZooManager
             //feature g
             Flee(new string[] { "raptor", "cat" }, 2);
         }
+        //there is Flee method with paremeters that in Occupant class and it is better than using the Flee from interface
+        void IPrey._Flee(string[] targets, int distance) { }
     }
 }
 

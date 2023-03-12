@@ -48,19 +48,20 @@ namespace ZooManager
          * parameter: string[] - targets animal, int - the distance that it can hunt
          * return: no (void)
          */
-        virtual public void Hunt(string[] targets, int distance)
+        virtual protected void Hunt(string[] targets, int distance)
         {
             //I don't know how to not define the directionInfo 
             //get the directions of targets by distance
-            (Dictionary<Direction, int> _directionInfo, List<Direction> targetDirections) = Game.Seek(location.x, location.y, targets, distance);
+            (Dictionary<Direction, int> _, List<Direction> targetDirections) = Game.Seek(location.x, location.y, targets, distance);
             //get the directions dict of null by distance of previous cell to make sure the cells between target and attacker are empty
-            (Dictionary<Direction, int> directionNull, List<Direction> _targetDirections) = Game.Seek(location.x, location.y, null, distance - 1);
+            (Dictionary<Direction, int> directionNull, List<Direction> _) = Game.Seek(location.x, location.y, null, distance - 1);
             //if found targets in some directions
             if (targetDirections.Count > 0)
             {
                 //if directionNull in one direction is smaller than distance-1, that means something in between
                 //if is distance-1 that means no thing in between
                 //because directionNull[direction] get the most continue empty cells in direction
+                //keep running Random until ==distance-1
                 while (directionNull[targetDirections[new Random().Next(0, targetDirections.Count)]] == distance - 1)
                 {
                     //attack the target in the distance with a radom direction
@@ -79,12 +80,12 @@ namespace ZooManager
          * return: no (void)
          */
         //feature g (mouse flee), h, i, j (cat flee) 
-        virtual public void Flee(string[] targets, int distance)
+        virtual protected void Flee(string[] targets, int distance)
         {
-            //I don't know how to not define the directionInfo 
+            //"_" value that didn't use
             //get the directions of targets by distance 1
             //feature i
-            (Dictionary<Direction, int> directionInfo, List<Direction> targetDirections) = Game.Seek(location.x, location.y, targets, 1);
+            (Dictionary<Direction, int> _, List<Direction> targetDirections) = Game.Seek(location.x, location.y, targets, 1);
             //if found targets in some directions
             if (targetDirections.Count > 0)
             {

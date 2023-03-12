@@ -11,6 +11,6 @@
          * parameter: string[] - targets animal, int - the distance that it can hunt
          * return: no (void)
          */
-        void Hunt(string[] targets, int distance);
+        void _Hunt(string[] targets, int distance);
     }
 }

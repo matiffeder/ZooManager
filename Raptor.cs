@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Xml.Linq;
 using System.Collections.Generic;
+
 namespace ZooManager
 {
     //feature a, b
@@ -33,7 +34,7 @@ namespace ZooManager
             base.Activate();
             Console.WriteLine("I am a raptor.");
             //check if there is prey can hunt
-            (Dictionary<Direction, int> _directionInfo, List<Direction> targetDirections) = Game.Seek(location.x, location.y, new string[] { "mouse", "cat" }, 1);
+            (Dictionary<Direction, int> _, List<Direction> targetDirections) = Game.Seek(location.x, location.y, new string[] { "mouse", "cat" }, 1);
             //hunt "mouse" or "cat" if distance is 1
             //the function only hunt when it can hunt, so we don't need to put it in if condition
             //feature d, i
@@ -44,5 +45,7 @@ namespace ZooManager
                 Game.Move(this, 2, null, null, false);
             }
         }
+        //there is Hunt method with paremeters that in Occupant class and it is better than using the Hunt from interface
+        void IPredator._Hunt(string[] targets, int distance) { }
     }
 }

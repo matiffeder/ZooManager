@@ -11,6 +11,6 @@
          * return: no (void)
          */
         //feature g (mouse flee), h, i, j (cat flee) 
-        void Flee(string[] targets, int distance);
+        void _Flee(string[] targets, int distance);
     }
 }

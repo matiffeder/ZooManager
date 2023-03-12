@@ -282,6 +282,7 @@ namespace ZooManager
                 //https://stackoverflow.com/questions/4538894/get-index-of-a-key-value-pair-in-a-c-sharp-dictionary-based-on-the-value
                 //get the index of newDir in dirCoordinates
                 int dirIndex = dirCoordinates.Keys.ToList().IndexOf(newDir);
+                //https://learn.microsoft.com/zh-tw/dotnet/api/system.linq.enumerable.elementat?view=net-7.0
                 //save the move back direction
                 //the DirCoordinates dict is organized by top, right, down, left, so the opposite direction is in the next two or previous two index
                 origDirection = dirCoordinates.ElementAt(dirIndex+2 > 3 ? dirIndex-2 : dirIndex+2).Key;
